@@ -15,7 +15,8 @@ export function InitiateRoutes() {
         const session = c.get('session');
         const result = await login(username, password, session);
         if(result.success){
-            return c.header('HX-Redirect', '/dashboard');
+            c.header('HX-Redirect', '/dashboard');
+            return c.body(null);
         }
         return c.html(result.html);
     });
