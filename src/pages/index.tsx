@@ -1,5 +1,4 @@
 import {app} from "../app";
-import {RequestData} from "../util";
 import {Session} from "hono-sessions";
 import {Layout} from "./mainLayout";
 
@@ -13,11 +12,6 @@ app.get('/', async (c, next) => {
     } else {
         session.set('counter', 1)
     }
-    /*const data = await RequestData(
-        "http://localhost:4000/login",
-        {username: "username", password: "password"}
-    );*/
-    //console.log("Success: ",data);
 
     return c.html(Layout(<Page />));
 })
