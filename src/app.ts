@@ -1,8 +1,6 @@
 import { Hono } from 'hono';
 import { MongoClient, Db } from 'mongodb';
 import {Session, sessionMiddleware, CookieStore} from 'hono-sessions'
-import {RequestData} from "./util";
-
 
 const client = new MongoClient("mongodb://localhost:27017");
 export const db: Db = client.db("mydb");
@@ -25,20 +23,3 @@ app.use('*', sessionMiddleware({
         httpOnly: true, // Recommended to avoid XSS attacks
     },
 }))
-
-app.get('/', async (c, next) => {
-    const session = c.get('session')
-
-    if (session.get('counter')) {
-        session.set('counter', session.get('counter') as number + 1)
-    } else {
-        session.set('counter', 1)
-    }
-    const data = await RequestData(
-        "http://localhost:4000/login",
-        {username: "username", password: "password"}
-    );
-    console.log("Success: ",data);
-
-    return c.html(`<h1>You have visited this page ${ session.get('counter') } times</h1>`)
-})
