@@ -43,6 +43,5 @@ export async function logout(session: Session) {
 
 export function isLoggedIn(session: Session): boolean {
     const userId = session.get('userId');
-    console.log(userId);
     return userId != null;
 }

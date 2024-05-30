@@ -5,7 +5,7 @@ app.get('/login', async (c, next) => {
     return c.html(Layout(<Page />));
 });
 
-function SomeOtherComponent() {
+function LoginForm() {
     return (
         <form hx-post="/login" hx-swap="beforeend" hx-trigger="submit">
             <input type="text" name="username" placeholder="Username" />
@@ -23,7 +23,7 @@ function LogoutButton(){
 function Page() {
     return (
         <div>
-            <SomeOtherComponent></SomeOtherComponent>
+            <LoginForm/>
             <LogoutButton />
         </div>
     );

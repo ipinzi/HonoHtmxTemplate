@@ -32,10 +32,8 @@ export function InitiateRoutes() {
     });
     app.get('/dashboard', async (c) => {
         if(isLoggedIn(c.get('session'))){
-            console.log("LOGGED IN")
             return c.html('<p>This is the DASHBOARD!</p>');
         }
-        console.log("not IN bye")
         return c.redirect('/login');
     });
 
