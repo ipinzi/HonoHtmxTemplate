@@ -5,6 +5,7 @@
   "dependencies": {
     "hono": "^4.4.0",
     "hono-sessions": "^0.5.8",
+    "htmx.org": "^1.9.12",
     "mongodb": "^6.7.0"
   },
   "devDependencies": {

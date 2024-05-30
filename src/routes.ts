@@ -1,5 +1,5 @@
 import { app, db } from './app';
-import {forgotPassword, login, logout, register} from "./auth";
+import {forgotPassword, isLoggedIn, login, logout, register} from "./auth";
 
 export function InitiateRoutes() {
 
@@ -9,12 +9,15 @@ export function InitiateRoutes() {
         let result = await register(username, password);
         return c.json({ success: result.success });
     });
-    app.post('/login', async (c) => {
+    app.post('/login',async (c) => {
 
-        const { username, password }: { username: string; password: string; } = await c.req.json();
+        const { username, password }: { username: string; password: string; } = await c.req.parseBody();
         const session = c.get('session');
         const result = await login(username, password, session);
-        return c.json({ success: result.success });
+        if(result.success){
+            return c.header('HX-Redirect', '/dashboard');
+        }
+        return c.html(result.html);
     });
     app.post('/forgotPassword', async (c) => {
 
@@ -24,10 +27,16 @@ export function InitiateRoutes() {
     });
     app.post('/logout', async (c) => {
 
-        const session = c.get('session');
-        const result = await logout(session);
+        const result = await logout(c.get('session'));
         return c.json({success: result.success});
     });
-
+    app.get('/dashboard', async (c) => {
+        if(isLoggedIn(c.get('session'))){
+            console.log("LOGGED IN")
+            return c.html('<p>This is the DASHBOARD!</p>');
+        }
+        console.log("not IN bye")
+        return c.redirect('/login');
+    });
 
 }
